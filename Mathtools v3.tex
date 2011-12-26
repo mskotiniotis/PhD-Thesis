@@ -1,0 +1,511 @@
+\documentclass{article}\bibliographystyle{unsrt}
+\usepackage{srcltx}
+\usepackage{amsthm,amssymb,amsmath,graphicx,epsfig,color,verbatim,enumerate,
+dsfont, mathtools}
+\usepackage{epstopdf,rotating}
+\DeclareMathAlphabet{\mathscr}{OT1}{pzc}{m}{it}
+\newcommand{\op}[1]{\operatorname{#1}}
+\newcommand{\cket}[1]{\left|#1\right)}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\cbra}[1]{\left(#1\right|}
+\newcommand{\bra}[1]{\left\langle #1\right|}
+\newcommand{\bracket}[2]{\left\langle #1|#2\right\rangle}
+\newcommand\defn[1]{\textsl{#1}}
+\newcommand{\abs}[1]{\left\lvert\tinyspace #1\tinyspace\right\rvert}
+\newcommand\ketbra[1]{|#1\rangle\langle#1|}
+\newcommand\cH{{\mathscr{H}}}
+\newcommand\cM{{\mathcal M}}
+\newcommand\cN{{\mathcal N}}
+\newcommand\cR{{\mathcal R}}
+\newcommand\cG{{\mathcal G}}
+\newcommand\cD{{\mathcal D}}
+\newcommand\cI{{\mathcal I}}
+\newcommand\cB{{\mathcal B}}
+\newcommand\cE{{\mathcal E}}
+\newcommand\cU{{\mathcal U}}
+\newcommand\cV{{\mathcal V}}
+\newcommand\cP{{\mathcal P}}
+\newcommand\cF{{\mathcal F}}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+
+\begin{document}
+\section{Mathematical tools}
+
+In this section I will review the mathematical machinery used in this thesis. I will begin with the mathematical formulation of quantum theory followed by representation theory of finite and
+compact Lie groups on finite dimensional vector spaces.  As both of these fields
+are fairly extensive, I will restrict myself only to the concepts and results
+that are relevant to the work presented in this thesis.  Specific results will be covered in
+later sections as needed.
+
+As this thesis is concerned with the treatment of collective noise on quantum mechanical systems, it seems appropriate to begin with the axiomatic formulation of
+quantum theory.  There are several good books where one can get a thorough
+exposition of quantum theory~\cite{}, however I will follow that of Nielsen and
+Chuang~\cite{} as it follows more closely the formalism used in this thesis.
+
+The first axiom of quantum theory, provides a correspondence between the
+mathematical description of a physical system and the physical state of that
+system.
+\begin{description}
+ \item[Axiom 1:]  Associated to any isolated physical system is a Hilbert space,
+$\cH$, a complex vector space equipped with an inner product that is complete in its norm.  The system is completely described by its \defn{state vector}, $\ket{\psi}\in \cH$, a unit vector in the Hilbert space.
+\end{description}
+Note that the exact properties of the Hilbert space to be used, for example
+it's dimension, are not specified by quantum theory.  These properties depend on
+the physical system under consideration.  For example, consider the spin of an
+electron.  The spin of this electron can be aligned with respect to some
+external frame of reference, or anti-aligned with it, or even be at an angle
+$\theta$ between ``aligned" and ``anti-aligned".  Denoting the condition `` the spin of the electron is aligned with the external reference frame'' as $\ket{0}$, and the condition ``the spin of an electron is anti-aligned with the external reference frame'' as $\ket{1}$, an arbitrary state of the electrons spin can be written as 
+\begin{equation}
+\ket{\psi}=\alpha\ket{0}+\beta\ket{1},
+\label{1}
+\end{equation}  
+where $\alpha,\beta\in\mathbb{C}$, and $\lvert\alpha\rvert^2+\lvert\beta\rvert^2=1$.
+Hence the relevant Hilbert space associated with the spin of an electron is two-dimensional, $\cH_2$. Eq.~\eqref{1} illustrates a remarkable non-classical property of quantum systems, namely, their ability to be in a linear super-position of classically distinguishable states.  We will show later on that this property of quantum systems introduces an inherent indistinguishability of their states, that is not present in classical physics.   
+
+A system described by the state $\ket{\psi}$ of Eq.~\eqref{1} is known to be in a \defn{pure state}.  However, it might be the case that what we know about an isolated system is that it is in one of a possible set of states $\{\ket{\psi}_i; i=0\ldots n\}$, with a probability, $p_i$, that the system is in state $\ket{\psi}_i$.  In this case we say that the quantum system is described by the \defn{ensemble of states}, $\{p_i,\,\ket{\psi}_i, \, i=0\ldots n\}$.  A convenient tool for describing an ensemble of states is the \defn{density matrix}, $\rho\cB(\cH)$, a bounded, positive semi-definite operator of unit trace.  In fact we can state the first axiom of quantum theory as follows. 
+\begin{description}
+ \item[Axiom 1:]  Associated to any isolated physical system is a Hilbert space,
+$\cH$, a complex vector space equipped with an inner product that is complete in its norm.  The system is completely described by its \defn{density operator} (or density matrix), $\rho\in \cB(\cH)$, a bounded, positive semi-definite operator of unit trace.
+\end{description}
+
+The density matrix formulation of quantum theory is equivalent to the state vector formulation.  Which formulation is used is largely a matter of convenience.  As both formulations are used in this thesis, I will review quantum theory from both points of view. 
+  
+The density matrix of a quantum mechanical system known to be in a pure state
+$\ket{\psi}$ is defined as
+\begin{equation}
+ \rho\equiv \ketbra{\psi},
+\label{2}
+\end{equation}
+whereas for the ensemble of states (also known as a mixed state) $\{p_i,\,\ket{\psi}_i, \, i=0\ldots n\}$ the density matrix is given by
+\begin{equation}
+ \rho\equiv\sum_i p_i\ketbra{\psi_i}.
+\label{3}
+\end{equation}
+The ability to treat both pure and mixed state descriptions of physical systems using the density matrix formalism makes the latter a very powerful mathematical tool.  One can distinguish a pure 
+state from a mixed state simply by looking at the rank of the density operator. 
+Pure states are represented by rank-one density operators, whereas mixed states have rank greater than one.
+
+The second axiom of quantum theory describes how to transform the state of a
+system.
+\begin{description}
+\item[Axiom 2:]  The evolution of a closed quantum system is described by a {\em unitary transformation}, $U$, such that the state of a system, $\ket{\psi}$, at a time $t_1$ is related to the state of a system, $\ket{\phi}$, at time $t_2$ by
+\begin{equation}
+\ket{\phi}=U\ket{\psi}
+\label{4}
+\end{equation}
+where $U$ depends solely on the times $t_1$ and $t_2$.  
+\end{description}
+In particular, it can be shown that $U\equiv\exp\left[\frac{\imath H(t_2-t_1)}{\hslash}\right]$, where $H(t_1-t_2)$ is a Hermitian operator , known as the \defn{Hamiltonian} of the system, and $\hslash$ is Planck's constant divided by $2\pi$.  Eq.~\eqref{4} is a statement of the well-known Schr\"{o}dinger equation.
+
+Notice that, as stated, the second axiom of quantum theory deals solely with closed system dynamics.  Suppose that a quantum mechanical system is subjected to one out of a possible set of unitary evolutions $\{U_i,\, i=1\ldots n\}$, with the unitary evolution $U_i$ occuring with probability $p_i$.  If the system is originally in a pure state $\ket{\psi}$, then after the action of the above mentioned dynamics, the system will be in the ensemble of states $\{p_i, U_i\ket{\psi}\}$, whose density matrix is given by 
+\begin{equation}
+\sigma=\sum_i p_i U_i\ketbra{\psi} U_i^\dagger\equiv\cE(\ketbra{\psi})
+\label{5}
+\end{equation}   
+The map $\cE: \rho\in\cB(\cH)\mapsto \sigma\in\cB(\cH)$ is known as a \defn{quantum operation}.  Consequently, axiom 2 of quantum theory can be expressed as: 
+\begin{description}
+\item[Axiom 2:]  The evolution of a quantum system is described by a
+\defn{quantum operation}, $\cE:\cB(\cH)\rightarrow\cB(\cH)$, 
+given by
+\begin{equation}
+\sigma=\cE(\rho),
+\label{6}
+\end{equation}
+where $\sigma$ is the state of the system after the evolution.  The quantum
+operation $\cE$ satisfies the following three properties
+\begin{enumerate}
+\item For any state $\rho\in\cB(\cH)$,
+$0\leq\mathrm{tr}\left(\cE(\rho)\right)\leq 1$.
+\item For probabilities $p_i$, $\cE\left(\sum_i\,
+p_i\rho_i\right)=\sum_i\,p_i\cE(\rho_i)$.
+\item $\cE$ is \defn{completely positive}; that is $\cE(A)$ is positive for any
+\defn{positive operator} $A$ and given an 
+additional system $R$ of arbitrary dimension $(\cI\otimes \cE)(A)$, where $\cI$
+is the identity operator acting on system $R$, 
+is positive for any positive operator $A$.
+\end{enumerate}
+\end{description}
+
+Axiom 2 above is stated in greater generality here than what normally appears in
+a quantum mechanical textbook.  In particular I have
+made no mention with regards to whether the evolution pertains to a closed or an
+open system.  This is because both types of evolutions can be represented as quantum operations.  For a closed system evolving under the action of a unitary operator, $U$,   
+\begin{equation}
+\cE(\rho)=U\rho U^{\dagger},
+\label{7}
+\end{equation}
+whereas Eq.~\eqref{5} describes the evolution of an open system.  This prompts for a general mathematical framework for quantum operations, known as the operator-sum representation.  Let $\{K_i\}$, 
+called the operator elements,  be a set of operators acting on the Hilbert space
+$\cH$.  A quantum operation can be described as
+\begin{equation}
+\cE(\rho)=\sum_i K_i\rho K_i^{\dagger}.
+\label{8}
+\end{equation}
+Thus, the unitary evolution of a closed system has operator-sum representation
+given by a single  operator element, $U$, whereas 
+the random unitary evolution, described by Eq.~\eqref{5}, has operator sum representation given by
+$\{\sqrt{p_i}U_i\}$.  
+
+A quantum operation is called \defn{trace-preserving} if
+\begin{equation}
+\sum_i K_i^{\dagger}K_i=I.
+\label{9}
+\end{equation}
+A quantum operation is \defn{non-trace-preserving} if
+\begin{equation}
+\sum_i K_i^{\dagger}K_i\leq I.
+\label{10}
+\end{equation}
+
+The third axiom of quantum mechanics deals with the process of measurement
+\begin{description}
+\item[Axiom 3:]  Quantum measurements are described by a collection of \defn{measurement operators}, $\{M_i\}$ acting on the Hilbert space, $\cH$, of the system, where the index $i$ refers to the measurement outcomes that may occur.  If the system is in state $\ket{\psi}$ prior to the measurement, then the probability that measurement outcome $i$ occurs is given by 
+\begin{equation}
+p(i)=\bra{\psi}M_i^\dagger M_i\ket{\psi}.
+\label{11}
+\end{equation} 
+The state of the system after the measurement is 
+\begin{equation}
+\ket{\phi}=\frac{M_i\ket{\psi}}{\sqrt{p_i}}.
+\label{12}
+\end{equation}
+As $\sum_i p(i)=1$, the measurement operators satisfy the \defn{completeness equation}
+\begin{equation}
+\sum_i M_i^\dagger M_i=I.
+\label{13}
+\end{equation}
+\end{description}
+
+Axiom three illustrates another major departure from classical physics. In the latter, the process of measurement is assumed to be non-invasive, so that whatever the state of the classical system was prior to measurement, is also the state of the system after the measurement.  However, as Eq.~\eqref{12} shows this is no longer the case in quantum mechanics.  Moreover, we have no way of determining a priori what measurement outcome will occur in a quantum measurement.  The best one can do is ascribe probabilities to the various possible measurement outcomes.
+
+Another phenomenon of quantum theory that is drastically different from classical physics is the notion of indistinguishability of pure quantum states.  In principle, there is nothing in the laws of classical physics that prevents one from distinguishing between two pure classical states.  Suppose, however that a system is prepared in one of the following pure states
+\begin{align}\nonumber
+\ket{\psi_1}=\ket{0}\\
+\ket{\psi_2}=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1}),
+\label{14}
+\end{align}  
+and we are asked to perform a measurement on the system and infer its state.  If the states in Eq.~\eqref{14} are perfectly distinguishable, then there must exist measurement operators $\{M_i\}$ such that 
+\begin{equation}
+\bra{\psi_j}M_i^\dagger M_i\ket{\psi_j}=\delta_{ij}.
+\label{15}
+\end{equation}
+In particular, it must hold that $M_2\ket{\psi_1}=0$.  As $\ket{\psi_2}=\frac{1}{\sqrt{2}}(\ket{\psi_1}+\ket{1})$ it follows that $M_2\ket{\psi_2}=\frac{1}{\sqrt{2}}M_2\ket{1}$ and 
+\begin{equation}
+\bra{\psi_2}M_2^\dagger M_2\ket{\psi_2}=\frac{1}{2} \bra{1}M_2^\dagger M_2\ket{1},
+\label{16}
+\end{equation}
+and 
+\begin{equation}
+\bra{1}M_2^\dagger M_2\ket{1}\leq\sum_{i=1}^2\bra{1}M_i^\dagger M_i\ket{1}=1
+\label{17}
+\end{equation}
+contradicting our assumption that the states are perfectly distinguishable.  
+
+In the density matrix formalism, the measurement axiom is a special case of axiom two, regarding quantum operations. 
+\begin{description}
+\item[Axiom 3:]  Quantum measurements are described by a collection of \defn{measurement operators}, $\{M_i\}$ acting on the Hilbert space, $\cH$, of the system, where the index $i$ refers to the measurement outcomes that may occur.  If the state of the system
+prior to measurement is $\rho$ then the probability that the outcome of the
+measurement is $i$ is given by
+\begin{equation}
+p(i)=\mathrm{tr}\left(M_i^{\dagger}M_i\rho\right).
+\label{18}
+\end{equation} 
+The state of the system after the measurement is given by 
+\begin{equation}
+\frac{M_i\rho M_i^{\dagger}}{\mathrm{tr}\left(M_i^{\dagger}M_i\rho\right)},
+\label{19}
+\end{equation} 
+and the measurement operators satisfy the completeness equation
+\begin{equation}
+\sum_i M_i^{\dagger}M_i=I.
+\label{20}
+\end{equation}
+\end{description}
+Evidently, a measurement is simply a trace-preserving quantum operation.  An
+important special type of measurement is a \defn{projective} measurement.  In
+addition to the conditions outlined by axiom three a projective measurement also
+satisfies
+\begin{equation}
+M_iM_j=\delta_{i,j} M_i.
+\label{21}
+\end{equation}
+It follows that $M_i^2=M_i$.  This implies that if we perform a projective
+measurement once, and obtain outcome $i$, repeating the same projective
+measurement again yields outcome $i$ with certainty.
+
+A second type of measurement that will be the focus in this thesis is the
+\defn{positive operator valued measurement}, or POVM for short.  Looking at
+Eq.~\eqref{20}, define $E_i=M_i^{\dagger}M_i$, and consider the set of positive
+operators $\{E_i\}$.  The operators $E_i$ are known as the \defn{elements} of
+the POVM.  If the only thing we are interested in are the probabilities of the
+various measurement outcomes, then a POVM measurement is all that is required. 
+Given a POVM that satisfies the completeness equation, Eq.~\eqref{21}, we can
+obtain the measurement operators as $M_i=\sqrt{E_i}$, where we only take the positive square root.        
+
+So far the axioms we have introduced deal with a single quantum mechanical
+system. The fourth and final axiom of quantum theory deals with composite
+quantum systems.
+\begin{description}
+\item[Axiom 4:]  The state space of a composite physical system is the tensor
+product of the state spaces of the component physical systems.  If we have $n$
+physical systems, with corresponding states $\ket{\psi_1}\cH^{(1)}, \ldots, \ket{\psi_n}\cH^{(n)}$, then the state of the composite system is $\ket{\psi_1}\otimes\ldots\ket{\psi_n}\in\cH^{(1)}\otimes\ldots\cH^{(n)}$.  
+\end{description}
+Axiom 4 can be rather misleading, and its implications are rather subtle.  If the state of a composite system can be written as the tensor product of states of it's constituent parts, then we say that the state of the composite system is \defn{separable}.  However, consider the following state for a composite system consisting of two spin-1/2 particles.
+\begin{equation}
+\ket{\psi}=\frac{\ket{00}+\ket{11}}{\sqrt{2}}.
+\label{22}
+\end{equation}
+Try as hard as we can, there is no state vector $\ket{\phi}_i$, describing the
+spin of electron $i$, such that 
+\begin{equation}
+\ket{\psi}=\ket{\phi}_1\otimes\ket{\phi}_2.
+\label{23}
+\end{equation}
+If the state of a composite system cannot be written as a tensor product of states
+describing the individual components, then we say that the state of the
+composite system entangled.  This is, perhaps one of the most remarkable departures from classical physics, as entangled states such as the one of Eq.~\eqref{23} have been demonstrated to exhibit correlations that cannot be accounted for by any classical local hidden variable theory~\cite{Bell}.  
+
+In the language of density operators, the final axiom of quantum theory reads     
+\begin{description}
+\item[Axiom 4:]  The state space of a composite physical system is the tensor
+product of the state spaces of the component physical systems.  If we have $n$
+component systems with Hilbert space $\cH$, then the state of the composite
+system is described by a density matrix $\rho\in\cB(\cH^{\otimes n})$.
+\end{description}
+The density matrix formalism proves very helpful in describing the state of constituent systems given teh state of a composite system.  Suppose the state of a composite system,
+consisting of sub-systems $A$ and $B$, is given by the density matrix
+$\rho_{AB}\in\cB(\cH^{\otimes 2})$ and we are interested in the state of system
+$A$.  The density matrix $\rho_A$ is given by
+\begin{equation}
+\rho_A=\mathrm{tr}_B(\rho_{AB}),
+\label{24}
+\end{equation}    
+where $\mathrm{tr}_B$, is the \defn{partial trace} operation defined as 
+\begin{equation}
+\mathrm{tr}_B(\ket{a_1}\bra{a_2}\otimes\ket{b_1}\bra{b_2})=\ket{a_1}\bra{a_2}
+\mathrm{tr}(\ket{b_1}\bra{b_2})
+\label{25}
+\end{equation}
+where $\ket{a_i}$ are any two vectors in the Hilbert space, $\cH_A$, of $A$, and
+$\ket{b_i}$ are any two vectors in the Hilbert space, $\cH_B$, of $B$.  As an example
+consider the the state of the composite system of two electrons given by
+Eq.~\eqref{22}.  The state of the first electron, $\rho_1$ is given by 
+\begin{equation}
+\rho_1=\mathrm{tr}_B(\ketbra{\psi})=\frac{1}{2}(\ketbra{0}+\ketbra{1}).
+\label{26}
+\end{equation}
+Note that the state of the second electron, $\rho_B$ is also given by
+Eq.~\eqref{26}.
+
+Axioms 2 and 3 can be easily generalized for the case of composite systems.  The
+operator elements of a quantum operation $\cE$ can be of two types; tensor
+products of operator elements on the individual components, or operator elements
+acting on the composite Hilbert space.  The former is called a \defn{separable}
+quantum operation, whereas the latter a \defn{joint} quantum operation. 
+Similarly the measurement on a composite systems can be separable, or joint.  This concludes the formalism of quantum theory.
+
+
+\section{Representation theory}
+
+The first axiom of quantum theory makes the implicit assumption that there
+exists an external system relative to which the state of the physical system is
+defined.  In the example given above, a party assigns the state $\ket{0}$ to the spin of
+an electron if it is aligned with respect to the magnetic field.  In this context, the
+magnetic field serves as an external reference frame for the state of the electron.  If we were
+to rotate the magnetic field by $180^{\circ}$ while leaving the state of the electron fixed, then
+the description of the  electron's state would be $\ket{1}$ relative to the magnetic field.  Thus,
+changing the orientation of the reference frame, is equivalent to changing the state of the system.  The former is known as an \defn{passive} transformation, whereas the latter
+as a \defn{active} transformation. Therefore, if the state of a physical system is $\rho$ a passive transformation can be described as 
+\begin{equation}
+ \rho'=U\rho U^{\dagger},
+\label{27}
+\end{equation}
+where $U$ is a unitary operator acting on the Hilbert space of the system. Let the set of all possible transformations on the  reference frame be $\{U_{g_i}; i\in(0\ldots N)\}$.  Clearly the identity operation belongs in the set. Furthermore, for every passive transformation,
+$U_{g_i}$, there exists an operation in the set, $U_{g_j}$, that undoes it. 
+Moreover, the composition of two passive operations 
+$U_{g_i}\, U_{g_j}$, under matrix multiplication results in a passive transformation,
+$U_{g_k}=U_{g_i}U_{g_j}$, that also belongs in the set of 
+allowable transformations. Hence, the set $\{U_{g_i}; i\in(0\ldots N)\}$ is closed under matrix
+multiplication, contains inverses, and the identity operation. 
+
+\subsection{Group Theory}
+
+Whenever a set of elements, $G=\{g_i,\, g_i\in(0\ldots N)\}$ with a well-defined binary operation satisfies the following criteria 
+\begin{description}
+\item[Closure:] for all $g_i,g_j\in G$, $g_i\cdot g_j=g_k\in G$, where $(\cdot)$ denotes the binary operation on the elements of the set,
+\item[Associativity:] for all $g_i,g_j,g_k\in G$, $(g_i\cdot g_j)\cdot g_k=g_i\cdot(g_j\cdot g_k)$,
+\item[Identity:] there exists $g_i\in G$ such that $g_i\cdot g_k=g_k$ for all $g_k\in G$.  The element $g_i$ is known as the \defn{identity} element and will be denoted by $e$,
+\item[Inverses:] for all $g_i\in G$, there corresponds an element $g_j\in G$ such that $g_i\cdot g_j=g_j\cdot g_i=e$.  We say that $g_j$ is the \defn{inverse} of $g_i$ and will henceforth denote the inverse of $g_i$ as $g_i^{-1}$,
+\end{description}
+we say that the set $G$ forms a \defn{group}.  From here on out we will denote the composition of two elements of the group as $g_ig_j$.  The following observations follow trivially from the criteria above;  both the group identity and inverse are unique.
+
+Groups can be generally classified into two different categories, abelian and non-abelian.  An \defn{abelian} group, $G$, is one where for all $g_i, g_k\in G$, $g_ig_k=g_kg_i$, whereas, for a \defn{non-abelian} group, $g_ig_k\neq g_kg_i$.  The \defn{order} of a group, $G$, denoted $\lvert G\rvert$, is the number of elements of the group $G$.  Groups can be of finite or infinite order.  For example the group of all integers modulo $N$ is a finite group, whereas the group of rotations in three dimensions is an example of a \defn{continuous group} and has an infinite number of elements. A set of elements $H=\{g_i\in G; i=1\ldots M< \lvert G\rvert\}$ are called the \defn{generators} of the group $G$, if every element, $g_k\in G$, can be expressed as a finite product of powers of the generators of the group. If $G$ has only a single generating element, then we say that $G$ is cyclic.  If a subset $H=\{g_1\ldots g_h; h<\lvert G\rvert\}$ of elements of $G$ is itself a group under the binary operation of $G$, then it forms a \defn{sub-group} of $G$, $H\in G$.  
+
+Oftentimes, we deal with maps between groups.  If $G$ and $H$ are two groups, then the function $f: G\rightarrow H$ such that $H\ni h_i=f(g_i)$ where $g_i\in G$, is called a \defn{map} between the groups $G$ and $H$.   If $f(g_i\cdot g_k)=f(g_i)\cdot f(g_k)$ then the map is called a \defn{homomorphism} between the groups $G$ and $H$.  A map $f:G\rightarrow H$ is \defn{surjective} if for every $h_i\in H$, there exists a $g_j\in G$ such that $h_i=f(g_j)$.  The map $f:G\rightarrow H$ is \defn{injective} if every element $g_i\in G$ is mapped to one and only one $h_j\in H$.  If $f:G\rightarrow H$ is both surjective and injective, then we say that $f:G\rightarrow H$ is an \defn{isomorphism} between the groups $G$ and $H$, and thus the groups $G$ and $H$ are in fact two different representations of the same abstract group.  An example of this latter case are the groups $G=\{0,1\}$, where the group product is addition modulo two, and $H=\{1,-1\}$, where the group product is multiplication.  The map $f:G\rightarrow H\quad f(g_i)=-2g_i+1$ is both surjective and injective.  Thus $G$ and $H$ are  two different representations of the abstract group consisting of two elements.
+
+The simplest homomorphism one can think of is the so called trivial homomorphism, $f(g_i)=e,\, \forall g_i\in G$.  Another homomorphism is $f: G\rightarrow G$, where $f(g_i)=g_i$.  Such a homomorphism is both surjective and injective.  An isomorphism that maps any $G$ onto itself is called an \defn{automorphism}.  An example of an automorphism is the map $f(g_i)=g_k g_i g_k^{-1}$, where $g_k\in G$. One important property of abstract groups that will play an important role in this thesis is that of \defn{conjugacy classes}.  Two group elements $g_i,\, g_j$ are conjugate, $g_i\sim g_k$, if there exists a $g_k\in G$ such that $g_i=g_k g_j g_k^{-1}$.  A conjugacy class of a group $G$ is a subset of elements, $g_i\in G$, that are all conjugate to one another.  I shall denote the conjugacy class of element $g_i$, that is all those elements in $G$ that are conjugate to $g_i$, by $[g_i]$, and the number of elements belonging to this class as $\lvert[g_i]\rvert$.  The set of all conjugacy classes of a group $G$ forms a \defn{partition} of the group.  Moreover, each element of the group $G$ belongs to one, and only one, conjugacy class so that if the total numbe or classes is $s$
+\begin{equation}
+\lvert G\rvert=\sum_{i=1}^s \lvert[g_i]\rvert.
+\label{27}
+\end{equation}
+Note that the identity element is in a conjugacy class of its own, and that for abelian groups, each element of the group is in it's own conjugacy class.  
+
+ 
+\subsection{Representations of Groups}
+ 
+As the state space of quantum systems in a Hilbert space, and as the operators acting on the state space of a quantum system are unitary, the set of all possible transformations, $\{U_{g_i}; i\in (0\ldots N)\}$, of a reference frame forms a a \defn{unitary representation} of some symmetry group $G$, $U:G\rightarrow\cH$.  More formally, a unitary representation, $U$, of a group $G$, on vector space $\cH$ of dimension $n$, is a homomorphism between $G$ and $\mathrm{GL}(n, \mathbb{C})$, the general linear group of $n\times n$ matrices over the complex numbers that satisfies $U_{g_i^{-1}}=U_{g_i}^\dagger, \, forall g_i\in G$.  The \defn{dimension} of a representation is the dimension of the vector space, $\cH$ upon which it acts.  
+
+The exact representation used to describe transformations of a reference frame depends on the type of physical systems  under consideration. For example, a trivial way to represent any group $G$ on a $d$-dimensional Hilbert space is via the homomorphism $U:G\rightarrow\mathrm{GL}(d,\mathbb{C})\quad U_{g_i}=I, \forall g_i\in G$. A representation $U:G\rightarrow
+cH$ that is isomorphic to $G$ is called \defn{faithful}.  This thesis is concerned with reference frames associated with a finite, or compact Lie groups.  For such groups it suffices to consider only unitary representations due to the following theorem.
+\begin{theorem}
+Every representation of a finite or compact Lie group is equivalent to a unitary representation.
+\label{thm:1}
+\end{theorem}
+
+A representation $U:G\rightarrow\cH$ is \defn{reducible} if there exists a proper subspace $\cH^{(\lambda)}\subset\cH$ such that for any
+$\ket{\lambda}\in\cH^{(\lambda)}$, $U_{g_i}\ket{\lambda}\in\cH^{(\lambda)},\,\forall g_i\in G$.  Alternatively, $U:G\rightarrow\cH$ is \defn{irreducible} if  it's action on $\cH$ leaves no proper invariant subspaces. A representation is \defn{fully reducible} if, by a suitable choice of basis, can be written in block diagonal form
+\begin{equation}
+ U=\bigoplus_\lambda \alpha^{(\lambda)} U^{(\lambda)},
+\label{28}
+\end{equation}
+where each $U{(\lambda)}$ is an irreducible representation of $G$ and $\alpha^{(\lambda)}$ denotes the multiplicity of $U^{(\lambda)}$.  If the Hilbert space of a physical system is finite dimensional then
+\begin{theorem}
+Every finite dimensional unitary representation is fully reducible.
+\label{thm:2}.
+\end{theorem}
+As the group of transformations associated with a a reference frame are unitary and finite dimensional, they can be decomposed into irreducible components.
+
+To determine the irreducible representations present in a given unitary representation one makes use of Schur's lemmas
+\begin{theorem}[Schur's first lemma]
+ Let $U:G\rightarrow\cH$ be a complex irreducible representation and let $M:\cH\rightarrow\cH$ be a linear map such that
+\begin{equation}
+ U_{g_i}M=MU_{g_i}^{\dagger}\quad \forall g_i\in G.
+\label{29}
+\end{equation}
+Then $M=\lambda I, \lambda\in\mathbb{C}$.
+\label{thm:3}
+\end{theorem}
+\begin{theorem}[Schur's second lemma]
+ Let $U:G\rightarrow\cH_1$, and $V:G\rightarrow\cH_2$ be two irreducible representations and let $M:\cH_1\rightarrow\cH_2$ be a 
+linear map such that
+\begin{equation}
+ MU_{g_i}=V_{g_i}M\quad \forall g_i\in G.
+\label{30}
+\end{equation}
+Then either $M=0$ or $U$ is equivalent to $V$, i.e.~$U=M^{dagger}VM$.
+\label{thm:4}
+\end{theorem}
+A quick corollary stemming from Schur's lemmata is that all the irreducible representations of an abelian group are one-dimensional.
+
+One representation of particular importance is the so called \defn{regular representation}, $\cR$, of a group $G$.  Let $\cH_{\lvert G\rvert}$ denote a $G$-dimensional Hilbert.  Define the map $f:G\rightarrow\cH$ such that $f(g_i)=\ket{g_i}$, where $\{\ket{g_i}\}$ forms an orthonormal basis on $\cH_{\lvert G\rvert}$.  The map simply takes an element $g_i\in G$ and maps it to a vector whose $i^{\mathrm{th}}$ entry is one while the remaining entries are zero.  The regular representation is the $\lvert G\rvert\times\lvert G\rvert$ matrix whose action is given by 
+\begin{equation}
+ \cR_{g_k}\ket{g_i}=\ket{g_kg_i}=\ket{g_l}
+\label{31}
+\end{equation}
+where $g_l=g_kg_i$.  Thus the regular representation of $G$ has coefficients given by 
+\begin{equation}
+ \bra{g_m}R_{g_k}\ket{g_n}=\delta_{g_kg_n,g_m}.
+\label{32}
+\end{equation}
+Thus, $\cR_e$ has trace $\lvert G\rvert$, and for all $g_i\neq e$, the trace of $\cR_{g_i}$ is zero.  It follows that the regular representation is always unitary.  As for finite groups the regular representation is finite dimensional, then by Theorem~\ref{thm:2} it is fully reducible.     
+ 
+The irreducible representations of a finite or compact Lie group satisfy the very important orthogonality relations.  Before stating these we need to define one more core concept, that of an invariant measure or volume element.  The measure on a set $G$ is a number between zero and one that  quantifies the size of the set and any subset thereof.  For example the entire set $G$ has measure one whilst the empty set has measure zero.  Denoting the measure of a subset $H$ of $G$ as $\mu(H)$, we say that $\mu(H)$ is \defn{left-invariant} if for any $g_i\in G$ the measure of the set $g_i H=\{g_ih_j; \, h_j H\}$, $\mu(g_iH)=\mu(H)$.  Similarly, the measure is said to be \defn{right-invariant} if $\mu(Hg_i)=\mu(H)$.  If the measure is both right and left invariant then it is simply called an invariant, or Haar, measure.  Finite or compact Lie groups all have an invariant measure, For the former the Haar measure is simply given by $1/\lvert G\rvert$.  For finite and compact Lie groups the orthogonality relations read
+\begin{theorem}
+Let $\{U^{(\lambda)}\}$ be a set of unitary, complex, inequivalent, irreducible representations of a finite group $G$.  Let $d_\lambda=\mathrm{dim}(U^{(\lambda)}$.  Then  
+\begin{equation}
+\sum_{g_i\in G} U^{(\lambda)}_{k,l}(g_i) \bar{U}^{(\lambda')}_{m,n}(g_i)=\frac{\lvert G\rvert}{d_\lambda}\delta{\lambda,\lambda'}\delta_{k,m}\delta{l,n},
+\label{33}
+\end{equation} 
+where $\bar{U}^{(\lambda')}_{m,n}(g_i)$ denotes the complex conjugate.  For compact Lie groups
+\begin{equation}
+\int_G \mathrm{d}g U^{(\lambda)}_{k,l}(g) \bar{U}^{(\lambda')}_{m,n}(g)=\frac{1}{d_\lambda}\delta_{\lambda,\lambda'}\delta_{k,m}\delta_{l,n},
+\label{34}
+\end{equation}
+where $\mathrm{d}g$ is the invariant Haar measure. 
+\label{thm:5}
+\end{theorem}
+Notice that Eq.~\eqref{33} implies that for a given irreducible representation $\lambda$, the $\lvert G\rvert$-dimensional vectors, with components $u^{(\lambda)}_{g_i}=U^{(\lambda)}_{k,l}(g_i)$ are orthogonal to each other.  For each given $\lambda$ there are $d^{(\lambda)2}$ such vectors.  Furthermore, vectors belonging to different irreducible representations $\lambda$ are also orthogonal to each other.  Hence there are $\sum_\lambda d^{(\lambda)2}$ orthogonal vectors in a $G$-dimensional space.  As there can be at most $G$ orthogonal vectors in a $G$-dimensional space it follows that 
+\begin{equation}
+ \sum_\lambda d^{(\lambda)2}\leq\lvert G\rvert,
+\label{35}
+\end{equation}
+for any finite group $G$.
+ 
+Another important tool in representation theory is that of the \defn{character of a representation}.  As representations are homomorphisms it follows that $U:g_kg_ig_k^{-1}\mapsto U_{g_k}U_{g_i}U_{g_k^{-1}}$.  Thus, $\mathrm{tr}(U_{g_k}U_{g_i}U_{g_k^{-1}})=\mathrm{tr}(U_{g_i})$ and elements in the same conjugacy class, $[g_i]$, have the same trace.  The \defn{character} of $U_{g_i}$ is defined as $\chi_{g_i}\equiv\mathrm{tr}(U_{g_i})$. I will denote by $\chi_{[g_i]}$ the character of all elements belonging to the same conjugacy class, $[g_i]$. As there are $s$ conjugacy classes, $\{[g_1],\ldots,[g_s]\}$, the \defn{compound character} of a representation, $\chi$, is an $s$-dimensional vector whose entries are $\chi_{[g_i]}$.  The compound character of an irreducible representation, $U^{(\lambda)}$, is denoted by $\chi^{(\lambda)}$ and is again an $s$-dimensional vector whose entries are $\chi^{(\lambda)}_{[g_i]}$.   A corollary of Thereom~\ref{thm:5} is 
+\begin{theorem}
+The characters of inequivalent irreducible representations satisfy
+\begin{equation}
+\frac{1}{|G|}\sum_{i=1}^s \lvert[g_i]\rvert\chi^{(\lambda)}_{[g_i]}\bar{\chi}^{(\lambda')}_{[g_i]}=\delta_{\lambda,\lambda'},
+\label{36}
+\end{equation} 
+where $\bar{\chi}^{(\lambda')}$ denotes the complex conjugate, and $s$ is the total number of classes of the finite group $G$.
+\label{thm:6}
+\end{theorem}
+Notice that as the set of $s$-dimensional vectors $\{\chi^{(\lambda)}\}$ are orthogonal Theorem~\eqref{6} implies that the number of irreducible representations $\lambda$, is at most equal to the number of conjugacy classes of the finite group $G$.
+
+Using Theorem~\ref{thm:6} and the character, $\chi$, of the regular representation one finds that $\sum_\lambda d^{(\lambda)2}=\lvert G\rvert$ as I now show.  As the regular representation for finite groups is finite dimensional and unitary it can be decomposed into irreducible representations as 
+\begin{equation}
+\cR=\bigoplus \alpha^{(\lambda)} U^{(\lambda)}.
+\label{37}
+\end{equation}
+The character of the regular representation is an $s$-dimensional vector whose first entry is $\lvert G\rvert$ and the remaining $s-1$ entries are zero.  Using the properties of the trace 
+\begin{equation}
+\chi_{[e]}=\lvert G\rvert=\sum_\lambda \alpha^{(\lambda)} \chi^{(\lambda)}_{[e]}
+\label{38}
+\end{equation}
+Multiplying both sides of Eq.~\eqref{38} by $\lvert[g_i]\rvert\bar{\chi}^{(\lambda')}_{[g_i]}$ and summing over all conjugacy classes  gives
+\begin{equation}
+\sum_i\lvert[g_i]\rvert\bar{\chi}^{(\lambda')}_{[g_i]}\lvert G\rvert=\sum_i\sum_\lambda\alpha^{(\lambda)}\rvert[g_i]\lvert\bar{\chi}^{(\lambda')}_{[g_i]}\chi^{(\lambda)}_{[e]}
+\label{39}
+\end{equation}
+As the only non-zero character of the regular representation corresponds to the identity class, and using Eq.~\eqref{37} Eq.~\eqref{39} reads
+\begin{equation}
+{\chi}^{(\lambda')}_{e}\lvert G\rvert=\sum_\lambda\alpha^{(\lambda)}\lvert G\rvert\delta_{\lambda,\lambda'}.
+\label{40}
+\end{equation}
+It then follows that $\alpha^{(\lambda')}=\bar{\chi^{(\lambda')}_{e}}=\mathrm{dim}(\bar{U}^{\lambda'})=\mathrm{dim}(U^{\lambda})=d^{(\lambda)}$.  Thus in the regular representation, every irreducible representation appears a number of times equal to it's dimension and Eq.~\eqref{38} reads
+\begin{equation}
+\lvert G\rvert=\sum_\lambda d^{(\lambda)2},
+\label{41}
+\end{equation}
+and the inequality in Eq.~\eqref{36} is saturated.  Hence the matrix elements of the regular representation provide a \defn{complete} set of orthogonal functions.  This is related to the following important theorem
+\begin{theorem}[Peter-Weyl Theorem:]  If $\{U^{(\lambda)}\}$ is a complete set of all the inequivalent, unitary, irreducible representations for a finite (or compact Lie) group, $G$, then the set of functions $\{U^{(\lambda)}_{m,n}\}: G\rightarrow \mathbb{C}$ is a complete set of orthogonal functions on $G$.
+\label{thm:7}
+\end{theorem}
+Using the Peter-Weyl theorem the following theorem can be proved
+\begin{theorem}
+The number of inequivalent irreducible representations of a finite, or compact Lie group, $G$ is equal to the number of conjugacy classes of the $G$
+\label{thm:8}
+\end{theorem}
+
+The consequences of the Peter-Weyl theorem in physics can be found everywhere, with the most notable case being that of Fourier series.  We know that any periodic function $f(\theta)$ has a Fourier series exapansion
+\begin{equation}
+f(\theta)=\sum_{n=-\infty}^{\infty} c_n e^{\imath n\theta}.
+\label{42}
+\end{equation}
+The set of functions $\{e^{\imath n\theta}\}$ are the irreducible representations of the continuous abelian group $U(1)$.  Another example of the Peter-Weyl theorem are the spherical harmonic functions $\{Y^l_m(\theta, \phi)\}$.  The latter are the matrix elements for the irreducible representations of the rotation group $\mathrm{SO(3)}$.    
+
+
+Thus, given a representation, $U$ of a group $G$, acting on a $d$-dimensional Hilbert space $\cH_d$, how does one go about determining the decomposition of $U$ into irreducible representations.  The easiest way for this to be done is by using Theorem~\ref{thm:6}.  Let $\chi$ be the character of $U$. Then for each component of the $\chi$ we may write
+\begin{equation}
+\chi_{[g_i]}=\sum_\lambda \alpha^{(\lambda)}\chi^{(\lambda)}_{[g_i]}.
+\label{43}
+\end{equation}
+Multiplying both sides of Eq.~\eqref{43} by $\lvert[g_i]\rvert\bar{\chi}^{(\lambda')}_{[g_i]}$ and summing over all the conjugacy classes we obtain
+\begin{align}\nonumber
+\sum_i\lvert[g_i]\rvert\bar{chi}^{(\lambda')}_{[g_i]}\chi_{[g_i]}&=\sum_\lambda\alpha^{(\lambda)}\sum_i\lvert[g_i]\rvert\bar{\chi}^{(\lambda')}_{[g_i]}\chi^{(\lambda)}_{[g_i]}\\
+&=\sum_\lambda \alpha^{(\lambda)} \lvert G \rvert \delta_{\lambda', \lambda}.
+\label{44}
+\end{align}
+Hence,
+\begin{equation}
+\alpha^{(\lambda)}=\frac{1}{\lvert G\rvert}\sum_i\lvert[g_i]\rvert\bar{chi}^{(\lambda)}_{[g_i]}\chi_{[g_i]}
+\label{45}
+\end{equation}
+Thus knowing the characters of all the irreducible representations of a group $G$, one can compute the multiplicities $\alpha^{(\lambda)}$ in the decomposition of $U$.
+
+\end{document}

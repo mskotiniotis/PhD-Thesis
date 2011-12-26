@@ -1,0 +1,49 @@
+\documentclass{article}\bibliographystyle{unsrt}
+\usepackage{amsthm,amssymb,amsmath,graphicx,epsfig,color,verbatim,enumerate,dsfont}
+\usepackage{epstopdf,rotating}
+\DeclareMathAlphabet{\mathscr}{OT1}{pzc}{m}{it}
+\newcommand{\op}[1]{\operatorname{#1}}
+\newcommand{\cket}[1]{\left|#1\right)}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\cbra}[1]{\left(#1\right|}
+\newcommand{\bra}[1]{\left\langle #1\right|}
+\newcommand{\bracket}[2]{\left\langle #1|#2\right\rangle}
+\newcommand\defn[1]{\textsl{#1}}
+\newcommand{\abs}[1]{\left\lvert\tinyspace #1\tinyspace\right\rvert}
+\newcommand\ketbra[1]{|#1\rangle\langle#1|}
+\newcommand\cH{{\mathscr{H}}}
+\newcommand\cM{{\mathcal M}}
+\newcommand\cN{{\mathcal N}}
+\newcommand\cR{{\mathcal R}}
+\newcommand\cG{{\mathcal G}}
+\newcommand\cD{{\mathcal D}}
+\newcommand\cI{{\mathcal I}}
+\newcommand\cB{{\mathcal B}}
+\newcommand\cE{{\mathcal E}}
+\newcommand\cU{{\mathcal U}}
+\newcommand\cV{{\mathcal V}}
+\newcommand\cP{{\mathcal P}}
+\newcommand\cF{{\mathcal F}}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+
+\begin{document}
+\section{Outline}
+
+The outline of this thesis is as follows.  In Sec.2 we introduce the mathematical tools used throughout the thesis.  In particular I will give a brief overview of the main elements of representation theory of groups, focusing particularly on unitary representations of groups on finite dimensional Hilbert spaces. As several results from representation theory will appear later on in the thesis, and for the sake of completeness I will  state and prove these in this section.
+
+In Sec.3 I outline the two main methods known to combat the lack of a shared frame of reference: reference frame alignment and decoherence-free subsystems.  In particular I will provide the general mathematical framework of these techniques, pointing out important results as well as what problems my work addresses, and indicate the context in which my work improves or extends our understanding in these fields.  
+
+Sec.4 contains my work on encoding and decoding classical messages using decoherence-free subspaces.  In particular i will provide the encoding states and decoding measurements that maximize the maximum likelihood of a correct guess for the cases where the transmitted message belongs to a group $H$ that is different from the group $G$ associated with the lack of shared reference frame. I will prove two important theorems, regarding the encoding operations and decoding measurements when the representations of $H$ and $G$ commute.
+
+In Sec. 5 I introduce the idea of relative parameters and the difference of a relative parameter protocol from that of a DFS protocol.  I briefly review known results for relative parameters and present my work on determining the encoding states and decoding measurements required to optimize the maximum likelihood of a correct guess for the case where Alice and Bob lack a reference frame for the group $S_3$, and wish to communicate a message that belongs to $S_3$. 
+
+Sec.6 contains my work on aligning a phase reference using photons.  In particular I determine the states and measurements that maximize the mutual information between two random variables representing Alice's phase reference direction and Bob's estimate.  I show that a phase alignment protocol provides an operational interpretation of $G$-asymmetry, a measure of resourcefulness that is defined for all groups and in all dimensions.  I show that the linearized, regularized $U(1)$-asymmetry quantifies the rate of transmission of phase information in a phase alignment protocol.  Finally, I show that a phase alignment protocol can be re-casted in terms of encoding and decoding information from a highly correlated quantum information source, and that for such sources the Holevo bound, an upper bound on the accessible information obtained via measurement from quantum mechanical systems can be saturated. In this context, my result can be viewed as the equivalent of the Holevo-Schumacher-Westmoreland theorem regarding the capacity of independent and identically distributed quantum information sources.    
+
+Sec.7 contains my work on the construction of a novel protocol for transmitting quantum information down channels with collective noise.  For such channels it was shown that a DFS protocol achieves an asymptotic rate of one logical qubit per one physical qubit sent, but the physical implementation of such a protocol requires a polynomial number of gates with regards to the number of logical qubits sent.  My protocol achieves the same asymptotic rate as a DFS protocol but requires only a linear number of gates to implement, making it cheaper, in terms of the logical number of gates required, to implement.  So far as I am aware, no other protocol, requiring a linear number of gates and achieving the optimal asymptotic rate is known.
+
+I discuss the importance of my work and possible future directions in Sec.8.  
+\end{document}
